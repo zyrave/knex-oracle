@@ -1,4 +1,4 @@
-# KNEX DEMO
+# KNEX ORACLE
 
 ## Migration CLI
 
