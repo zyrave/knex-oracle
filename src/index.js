@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined')); // use 'tiny' of 'combined'
 
 // App Routes
-app.use('/', [require('./routes/userRoutes')]);
+app.use('/', [require('./routes/AuthRoutes'), require('./routes/UserRoutes'), require('./routes/ProductRoutes')]);
 
 // App Middleware - Error Handling
 app.use(require('./middleware/errorMiddleware').all);

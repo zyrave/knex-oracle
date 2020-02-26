@@ -1,3 +1,6 @@
 node_modules
 yarn.err
 .env
+.env.dev
+.env.local
+NOTES.txt

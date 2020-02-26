@@ -14,11 +14,11 @@ module.exports = ({ knex = {}, name = 'name', tableName = 'tablename', selectabl
     try {
       result = await knex
         .insert(props)
-        .returning(selectableProps)
         .into(tableName)
+        .returning(selectableProps)
         .timeout(timeout);
     } catch (err) {
-      console.error('#ERROR:', err);
+      console.error(err);
     }
 
     return result;
@@ -30,7 +30,7 @@ module.exports = ({ knex = {}, name = 'name', tableName = 'tablename', selectabl
     delete props.id; // not allowed to set `id`
 
     try {
-      result = knex
+      result = await knex
         .update(props)
         .from(tableName)
         .where({ id })
@@ -47,7 +47,7 @@ module.exports = ({ knex = {}, name = 'name', tableName = 'tablename', selectabl
     let result;
 
     try {
-      result = knex
+      result = await knex
         .del()
         .from(tableName)
         .where({ id })
@@ -101,7 +101,7 @@ module.exports = ({ knex = {}, name = 'name', tableName = 'tablename', selectabl
     let result;
 
     try {
-      result = knex
+      result = await knex
         .select(selectableProps)
         .from(tableName)
         .where({ id })

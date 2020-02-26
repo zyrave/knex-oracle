@@ -1,10 +1,8 @@
-const { knexSnakeCaseMappers } = require('objection');
-
 require('dotenv').config();
 
 module.exports = {
   development: {
-    client: 'pg',
+    client: 'oracledb',
     connection: {
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
@@ -17,7 +15,8 @@ module.exports = {
     seeds: {
       directory: './src/db/seeds',
     },
-    ...knexSnakeCaseMappers(),
+    debug: true,
+    wrapIdentifier: (value, origImpl) => origImpl(value.toUpperCase()),
   },
 
   testing: {
@@ -34,7 +33,29 @@ module.exports = {
     seeds: {
       directory: './src/db/seeds',
     },
-    ...knexSnakeCaseMappers(),
+    debug: true,
+    wrapIdentifier: (value, origImpl) => origImpl(value.toUpperCase()),
+  },
+
+  staging: {
+    client: 'pg',
+    connection: {
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    },
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    migrations: {
+      directory: './src/db/migrations',
+    },
+    seeds: {
+      directory: './src/db/seeds',
+    },
+    wrapIdentifier: (value, origImpl) => origImpl(value.toUpperCase()),
   },
 
   production: {
@@ -45,12 +66,16 @@ module.exports = {
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
     },
+    pool: {
+      min: 2,
+      max: 10,
+    },
     migrations: {
       tableName: './src/db/migrations',
     },
     seeds: {
       directory: './src/db/seeds',
     },
-    ...knexSnakeCaseMappers(),
+    wrapIdentifier: (value, origImpl) => origImpl(value.toUpperCase()),
   },
 };
